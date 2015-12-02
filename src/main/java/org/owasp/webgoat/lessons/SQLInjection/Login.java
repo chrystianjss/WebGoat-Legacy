@@ -1,6 +1,8 @@
 
 package org.owasp.webgoat.lessons.SQLInjection;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -122,13 +124,20 @@ public class Login extends DefaultLessonAction
 
         try
         {
-            String query = "SELECT * FROM employee WHERE userid = " + userId + " and password = '" + password + "'";
+            //String query = "SELECT * FROM employee WHERE userid = " + userId + " and password = '" + password + "'";
+        	String query = "SELECT * FROM employee WHERE userid = ? and password = ?";
             // System.out.println("Query:" + query);
             try
             {
-                Statement answer_statement = WebSession.getConnection(s)
-                        .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                ResultSet answer_results = answer_statement.executeQuery(query);
+//                Statement answer_statement = WebSession.getConnection(s)
+//                        .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//                ResultSet answer_results = answer_statement.executeQuery(query);
+            	Connection connection = WebSession.getConnection(s);
+            	PreparedStatement pst = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            	pst.setString(1, userId);
+            	pst.setString(2, password);
+            	ResultSet answer_results = pst.executeQuery();
+            	
                 if (answer_results.first())
                 {
                     setSessionAttribute(s, getLessonName() + ".isAuthenticated", Boolean.TRUE);

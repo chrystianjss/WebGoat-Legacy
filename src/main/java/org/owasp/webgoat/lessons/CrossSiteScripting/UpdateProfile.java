@@ -129,11 +129,15 @@ public class UpdateProfile extends DefaultLessonAction
         String disciplinaryActionDate = request.getParameter(CrossSiteScripting.DISCIPLINARY_DATE);
         String disciplinaryActionNotes = request.getParameter(CrossSiteScripting.DISCIPLINARY_NOTES);
         String personalDescription = request.getParameter(CrossSiteScripting.DESCRIPTION);
-
+        
+        String regex = "[A-Za-z0-9\\s.]*";
+        Pattern pattern = Pattern.compile(regex);
+        validate(regex, pattern);
+        
         Employee employee = new Employee(subjectId, firstName, lastName, ssn, title, phone, address1, address2,
-                manager, startDate, salary, ccn, ccnLimit, disciplinaryActionDate, disciplinaryActionNotes,
-                personalDescription);
-
+        		manager, startDate, salary, ccn, ccnLimit, disciplinaryActionDate, disciplinaryActionNotes,
+        		personalDescription);
+        	
         return employee;
     }
 

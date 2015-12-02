@@ -1,6 +1,8 @@
 
 package org.owasp.webgoat.lessons.SQLInjection;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -97,15 +99,25 @@ public class ViewProfile extends DefaultLessonAction
         // Query the database for the profile data of the given employee
         try
         {
-            String query = "SELECT employee.* "
+//            String query = "SELECT employee.* "
+//                    + "FROM employee,ownership WHERE employee.userid = ownership.employee_id and "
+//                    + "ownership.employer_id = " + userId + " and ownership.employee_id = " + subjectUserId;
+        	
+        	String query = "SELECT employee.* "
                     + "FROM employee,ownership WHERE employee.userid = ownership.employee_id and "
-                    + "ownership.employer_id = " + userId + " and ownership.employee_id = " + subjectUserId;
+                    + "ownership.employer_id = ? and ownership.employee_id = ?";
 
             try
             {
-                Statement answer_statement = WebSession.getConnection(s)
-                        .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                ResultSet answer_results = answer_statement.executeQuery(query);
+//                Statement answer_statement = WebSession.getConnection(s)
+//                        .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//                ResultSet answer_results = answer_statement.executeQuery(query);
+            	Connection connection = WebSession.getConnection(s);
+            	PreparedStatement pst = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            	pst.setString(1, userId);
+            	pst.setString(2, subjectUserId);
+            	ResultSet answer_results = pst.executeQuery();
+            	
                 if (answer_results.next())
                 {
                     // Note: Do NOT get the password field.

@@ -70,6 +70,10 @@ public class FindProfile extends DefaultLessonAction
                 searchName = getRequestParameter(s, CrossSiteScripting.SEARCHNAME);
 
                 Employee employee = null;
+                
+                String regex = "[A-Za-z0-9\\s.]*";
+                Pattern pattern = Pattern.compile(regex);
+                validate(searchName, pattern);
 
                 employee = findEmployeeProfile(s, userId, searchName);
                 if (employee == null)

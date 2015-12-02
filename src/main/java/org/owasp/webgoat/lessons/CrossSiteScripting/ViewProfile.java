@@ -12,6 +12,7 @@ import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
 import org.owasp.webgoat.session.ValidationException;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.HtmlEncoder;
 
 
 /***************************************************************************************************
@@ -99,14 +100,23 @@ public class ViewProfile extends DefaultLessonAction
                 {
 
                     // Note: Do NOT get the password field.
-                    profile = new Employee(answer_results.getInt("userid"), answer_results.getString("first_name"),
-                            answer_results.getString("last_name"), answer_results.getString("ssn"), answer_results
-                                    .getString("title"), answer_results.getString("phone"), answer_results
-                                    .getString("address1"), answer_results.getString("address2"), answer_results
-                                    .getInt("manager"), answer_results.getString("start_date"), answer_results
-                                    .getInt("salary"), answer_results.getString("ccn"), answer_results
-                                    .getInt("ccn_limit"), answer_results.getString("disciplined_date"), answer_results
-                                    .getString("disciplined_notes"), answer_results.getString("personal_description"));
+                	profile = new Employee(answer_results.getInt("userid"), 
+                						   answer_results.getString("first_name"),
+                						   answer_results.getString("last_name"), 
+                						   answer_results.getString("ssn"), 
+                						   answer_results.getString("title"), 
+                						   answer_results.getString("phone"), 
+                						   HtmlEncoder.encode(answer_results.getString("address1")), 
+                						   answer_results.getString("address2"), 
+                						   answer_results.getInt("manager"), 
+                						   answer_results.getString("start_date"), 
+                						   answer_results.getInt("salary"), 
+                						   answer_results.getString("ccn"), 
+                						   answer_results.getInt("ccn_limit"), 
+                						   answer_results.getString("disciplined_date"), 
+                						   answer_results.getString("disciplined_notes"), 
+                						   answer_results.getString("personal_description"));
+                    
                     /*
                      * System.out.println("Retrieved employee from db: " + profile.getFirstName() +
                      * " " + profile.getLastName() + " (" + profile.getId() + ")");
