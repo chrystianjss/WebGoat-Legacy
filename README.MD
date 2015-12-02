@@ -1,3 +1,21 @@
+# Release Notes
+
+Solutions for the following attack categories:
+
+* Cross-Site Scripting
+* SQL Injection
+* Role Based Access Control
+
+Tools:
+
+* Firefox 42.0
+* Firebug 2.0.13 (Firefox Extension)
+* Eclipse Luna
+* Java JDK 8
+
+Video with solutions: (https://youtu.be/fR00zwfSyCc)
+
+
 # Important Information
 
 Thank you for downloading WebGoat!  This is the WebGoat Legacy version which is essentially the WebGoat 5 with a new UI. 
